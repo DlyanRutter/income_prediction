@@ -68,46 +68,47 @@ def download(
 	except FileNotFoundError:
 		logger.info("Data file not found")
 
-def process_data(df):
-	# remove whitespace from column names for easier indexing
-	df.columns = df.columns.str.replace(' ', '')
-	# drop duplicates
-	logger.info("Dropping duplicates")
-	df = df.drop_duplicates().reset_index(drop=True)
+def process_data(df, scale=True, for_training=False):
+    # remove whitespace from column names for easier indexing
+    df.columns = df.columns.str.replace(' ', '')
+    # drop duplicates
+    logger.info("Dropping duplicates")
+    df = df.drop_duplicates().reset_index(drop=True)
 
-	# Binarize labels
-	df['salary'] = df['salary'].apply(
+    # Binarize labels
+    df['salary'] = df['salary'].apply(
         lambda val: 0 if val == ">50K" else 1)
 
 	# Dropping capital gain outliers [There were 159 at exactly 99999]
-	idx = df['capital-gain'].between(0, 99998)
-	df = df[idx].copy()
+    idx = df['capital-gain'].between(0, 99998)
+    df = df[idx].copy()
 
-	# Specify numeric and categorical features
-	cat_features = ["workclass", "education", "marital-status", "occupation",
-	"relationship", "race", "sex", "native-country"]
-	num_features = ['age', 'fnlgt', 'education-num', 'capital-gain',
+    # Specify numeric and categorical features
+    cat_features = ["workclass", "education", "marital-status", "occupation",
+    "relationship", "race", "sex", "native-country"]
+    num_features = ['age', 'fnlgt', 'education-num', 'capital-gain',
     'capital-loss', 'hours-per-week']
 
     # Encode categorical features
-	for cat in cat_features:
-		df[cat] = df[cat].astype('category')
-		df[cat] = df[cat].cat.codes
+    for cat in cat_features:
+        df[cat] = df[cat].astype('category')
+        df[cat] = df[cat].cat.codes
 
-    # Impute missing values for numeric and categorical features 
-	imputer = SimpleImputer(strategy="most_frequent")
-	df = pd.DataFrame(imputer.fit_transform(df), columns=df.columns)
-
-	salary = df['salary']
-	df = df.drop('salary', axis=1)  
-	# Standardize numerical data
-	df_z_scaled = df.copy()
-	for num in num_features:
-		df_z_scaled[num] = \
-		(df_z_scaled[num] - df_z_scaled[num].mean()) / df_z_scaled[num].std()
-	#df.to_csv('clean_data', index=False)
-	df_z_scaled['salary'] = salary
-	return df_z_scaled
+    imputer = SimpleImputer(strategy="most_frequent") 
+    df = pd.DataFrame(imputer.fit_transform(df), columns=df.columns)
+    if for_training==True:
+        salary = df['salary']
+        df = df.drop('salary', axis=1)  
+        # Standardize numerical data
+        df_z_scaled = df.copy()
+        for num in num_features:
+            df_z_scaled[num] = \
+            (df_z_scaled[num] - df_z_scaled[num].mean()) / df_z_scaled[num].std()
+        df.to_csv('clean_data', index=False)
+        df_z_scaled['salary'] = salary
+        return df_z_scaled
+    else:
+        return df
 
 def slices(feature, df, classes=None, property=None):
 	"""
@@ -352,50 +353,28 @@ def feature_importance_plot(model, x_data, output_pth='figure_file', show_plot=F
         plt.show()
     plt.close()
 
-def tree_explainer_plot(model, features_test):
-    '''
-    Explain the output of ensemble model and store plot in image file
-    Inputs:
-        model: Tree model
-        features_test: Features test data
-    Output:
-        None
-    '''
-    # Create or open storage file
-    filename = '/figure_file'
-    current_dir = os.getcwd()
-    figure_file = current_dir + filename
-    if not os.path.isdir(figure_file):
-        os.umask(0)
-        os.makedirs(figure_file)
-    if not os.path.exists(current_dir + filename):
-        with open(figure_file, 'w', encoding='utf-8'):
-            pass
-
-    # Create and save Shap summary plot
-    explainer = shap.TreeExplainer(model)
-    shap_values = explainer.shap_values(features_test)
-    shap.summary_plot(shap_values, features_test, plot_type="bar", show=False)
-    plt.savefig('./figure_file/tree_explainer.png')
-    plt.close()
 
 if __name__ == '__main__':
     # Load data, perform eda, encode categorical features, and engineer features
     data_frame = download()
     data_frame = process_data(data_frame)
-    features, labels, features_train, features_test,\
-    labels_train, labels_test = split(data_frame)
-
+    
     # Train and save models if models not yet already created
     if os.path.exists('./models/rfc_model.pkl'):
         print ('trained models exist')
+        data_frame = process_data(data_frame)
     else:
+        data_frame = process_data(data_frame, for_training=True)
         train_models(data_frame)
         print ('models trained for the first time')
 
     # Load models    
     cv_rfc = joblib.load('./models/rfc_model.pkl')
     lrc = joblib.load('./models/logistic_model.pkl')
+
+    # Split df into train and test sets
+    features, labels, features_train, features_test,\
+    labels_train, labels_test = split(data_frame)
 
     # Establish predictions and produce roc auc score
     labels_train_preds_rf = cv_rfc.predict(features_train)
@@ -409,4 +388,5 @@ if __name__ == '__main__':
         labels_train_preds_rf, labels_test_preds_lr, labels_test_preds_rf)
     roc_plots(labels_test, labels_test_preds_rf, labels_test_preds_lr)
     feature_importance_plot(cv_rfc, features)
-    tree_explainer_plot(cv_rfc, features_test)
+
+    
