@@ -1,0 +1,18 @@
+{
+  "age": 31,
+  "workclass": "Without-pay",
+  "fnlgt": 123011,
+  "education": "Bachelors",
+  "education-num": 16,
+  "marital-status": "Never-married",
+  "occupation": "Other-service",
+  "relationship": "Unmarried",
+  "race": "White",
+  "sex": "Male",
+  "capital-gain": 0,
+  "capital-loss": 0,
+  "hours-per-week": 0,
+  "native-country": "United-States",
+  "salary": "<=50K"
+}
+
