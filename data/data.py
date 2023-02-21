@@ -39,191 +39,191 @@ def download(
     local_path=local_path,
     filename='data.csv',
      online=False):
-	"""
-	Retrieve CSV file and return pandas data frame.
-	Url is path to csv file.
-	Local path is path to data.py
-	Filename is name of file to save as
-	Online true if you want to use the online file rather than a local version
-	"""
-	# basename = pathlib.Path(url).name.split("?")[0].split("#")[0]
-	data_file = local_path + filename
-	# Save file to local machine if file doesn't yet exist
-	if not os.path.exists(data_file) and online == False:
-		with open(data_file, 'wb+') as data:
-			with requests.get(url, stream=True) as raw_data:
-				for chunk in raw_data.iter_content(chunk_size=8192):
-					data.write(chunk)
-				data.flush()
-			logger.info(f"File created saved locally as {data_file}...")
+    """
+    Retrieve CSV file and return pandas data frame.
+    Url is path to csv file.
+    Local path is path to data.py
+    Filename is name of file to save as
+    Online true if you want to use the online file rather than a local version
+    """
+    # basename = pathlib.Path(url).name.split("?")[0].split("#")[0]
+    data_file = local_path + filename
+    # Save file to local machine if file doesn't yet exist
+    if not os.path.exists(data_file) and online == False:
+        with open(data_file, 'wb+') as data:
+            with requests.get(url, stream=True) as raw_data:
+                for chunk in raw_data.iter_content(chunk_size=8192):
+                    data.write(chunk)
+                data.flush()
+            logger.info(f"File created saved locally as {data_file}...")
 
-	# Pull file from github but don't save
-	elif online == True:
-		request = requests.get(url).content
-		logger.info(f"Using github version of data")
-		return pd.read_csv(
+    # Pull file from github but don't save
+    elif online == True:
+        request = requests.get(url).content
+        logger.info(f"Using github version of data")
+        return pd.read_csv(
     io.StringIO(
         request.decode('utf-8')),
          skipinitialspace=True)
 
-	# Load csv file and convert to data frame
-	try:
-		logger.info('using local file')
-		return pd.read_csv(data_file, skipinitialspace=True)
-	except FileNotFoundError:
-		logger.info("Data file not found")
+    # Load csv file and convert to data frame
+    try:
+        logger.info('using local file')
+        return pd.read_csv(data_file, skipinitialspace=True)
+    except FileNotFoundError:
+        logger.info("Data file not found")
 
 
 #data_frame = download()
 
 
 def process_data(df):
-	# remove whitespace from column names for easier indexing
-	df.columns = df.columns.str.replace(' ', '')
-	# drop duplicates
-	logger.info("Dropping duplicates")
-	df = df.drop_duplicates().reset_index(drop=True)
+    # remove whitespace from column names for easier indexing
+    df.columns = df.columns.str.replace(' ', '')
+    # drop duplicates
+    logger.info("Dropping duplicates")
+    df = df.drop_duplicates().reset_index(drop=True)
 
-	# Binarize labels
-	df['salary'] = df['salary'].apply(
+    # Binarize labels
+    df['salary'] = df['salary'].apply(
         lambda val: 0 if val == ">50K" else 1)
 
-	# Dropping capital gain outliers [There were 159 at exactly 99999]
-	idx = df['capital-gain'].between(0, 99998)
-	df = df[idx].copy()
+    # Dropping capital gain outliers [There were 159 at exactly 99999]
+    idx = df['capital-gain'].between(0, 99998)
+    df = df[idx].copy()
 
-	# Specify numeric and categorical features
-	cat_features = ["workclass", "education", "marital-status", "occupation",
-	"relationship", "race", "sex", "native-country"]
-	num_features = ['age', 'fnlgt', 'education-num', 'capital-gain',
+    # Specify numeric and categorical features
+    cat_features = ["workclass", "education", "marital-status", "occupation",
+    "relationship", "race", "sex", "native-country"]
+    num_features = ['age', 'fnlgt', 'education-num', 'capital-gain',
     'capital-loss', 'hours-per-week']
 
     # Encode categorical features
-	for cat in cat_features:
-		df[cat] = df[cat].astype('category')
-		df[cat] = df[cat].cat.codes
+    for cat in cat_features:
+        df[cat] = df[cat].astype('category')
+        df[cat] = df[cat].cat.codes
 
     # Impute missing values for numeric and categorical features 
-	imputer = SimpleImputer(strategy="most_frequent")
-	df = pd.DataFrame(imputer.fit_transform(df), columns=df.columns)
+    imputer = SimpleImputer(strategy="most_frequent")
+    df = pd.DataFrame(imputer.fit_transform(df), columns=df.columns)
 
-	salary = df['salary']
-	df = df.drop('salary', axis=1)  
-	# Standardize numerical data
-	df_z_scaled = df.copy()
-	for num in num_features:
-		df_z_scaled[num] = \
-		(df_z_scaled[num] - df_z_scaled[num].mean()) / df_z_scaled[num].std()
-	#df.to_csv('clean_data', index=False)
-	df_z_scaled['salary'] = salary
-	return df_z_scaled
+    salary = df['salary']
+    df = df.drop('salary', axis=1)  
+    # Standardize numerical data
+    df_z_scaled = df.copy()
+    for num in num_features:
+        df_z_scaled[num] = \
+        (df_z_scaled[num] - df_z_scaled[num].mean()) / df_z_scaled[num].std()
+    #df.to_csv('clean_data', index=False)
+    df_z_scaled['salary'] = salary
+    return df_z_scaled
 
 #data_frame = process_data(data_frame)
 
 
 def slices(feature, df, classes=None, property=None):
-	"""
-	Feature: a categorical feature from the list:
-		["workclass", "education", "marital-status", "occupation",
-		"relationship", "race", "sex", "native-country"]	
-	Property: The feature's numerical property to analyze from the list:
-		["eduction-num", "capital-gain", "capital-loss", "age",
-		"fnlgt", "hours-per-week"]
-	Classes: a list of potential values for the categorical feature, e.g.
-		["Federal-gov", "Local-gov", "Never-worked", "Private", "Self-emp-inc",
-		"Self-emp-not-inc", "?", "State-gov", "Without-pay"] for workclass feature
-	
-	"""
-	# Show mean possible numeric values of all potential workclass categoricals
-	"""
-		                        age          fnlgt  ...  capital-loss  hours-per-week
-	workclass                                   ...                              
-	?                 40.960240  188516.338235  ...     60.760349       31.919390
-	Federal-gov       42.590625  185221.243750  ...    112.268750       41.379167
-	Local-gov         41.751075  188639.712852  ...    109.854276       40.982800
-	"""
-	mean_df = df.groupby(feature).mean(numeric_only=True) 
-	std_df = df.groupby(feature).std(numeric_only=True) 
+    """
+    Feature: a categorical feature from the list:
+        ["workclass", "education", "marital-status", "occupation",
+        "relationship", "race", "sex", "native-country"]    
+    Property: The feature's numerical property to analyze from the list:
+        ["eduction-num", "capital-gain", "capital-loss", "age",
+        "fnlgt", "hours-per-week"]
+    Classes: a list of potential values for the categorical feature, e.g.
+        ["Federal-gov", "Local-gov", "Never-worked", "Private", "Self-emp-inc",
+        "Self-emp-not-inc", "?", "State-gov", "Without-pay"] for workclass feature
+    
+    """
+    # Show mean possible numeric values of all potential workclass categoricals
+    """
+                                age          fnlgt  ...  capital-loss  hours-per-week
+    workclass                                   ...                              
+    ?                 40.960240  188516.338235  ...     60.760349       31.919390
+    Federal-gov       42.590625  185221.243750  ...    112.268750       41.379167
+    Local-gov         41.751075  188639.712852  ...    109.854276       40.982800
+    """
+    mean_df = df.groupby(feature).mean(numeric_only=True) 
+    std_df = df.groupby(feature).std(numeric_only=True) 
 
-	if not property and not classes:
-		print (mean_df)
-		print (std_df)
+    if not property and not classes:
+        print (mean_df)
+        print (std_df)
 
-	if property and not classes:
-		print (mean_df[property])
-		print (std_df[property])
+    if property and not classes:
+        print (mean_df[property])
+        print (std_df[property])
 
-	if property and classes:
-		for cls in classes:
-			std = std_df.loc[cls][property]
-			mn = mean_df.loc[cls][property]
-			print (f"standard deviation of {property} of {cls} = {std}")
-			print (f"mean {property} of {cls} = {mn}")
+    if property and classes:
+        for cls in classes:
+            std = std_df.loc[cls][property]
+            mn = mean_df.loc[cls][property]
+            print (f"standard deviation of {property} of {cls} = {std}")
+            print (f"mean {property} of {cls} = {mn}")
 
-	if classes and not property:
-		raise ValueError("Can't have a property without a class")
-	#slices('workclass', data_frame, classes=['Never-worked', 'Federal-gov'], property='education-num')
+    if classes and not property:
+        raise ValueError("Can't have a property without a class")
+    #slices('workclass', data_frame, classes=['Never-worked', 'Federal-gov'], property='education-num')
 
 
 def split(df, stratify_by=None):
 
-	#df is a data frame to split into train and test sets
-	#stratify_by is str of the feature to stratify by if provided, else none
-	#e.g. "Workclass" 
-	copied_df = df.copy()
-	y = copied_df.pop('salary') #labels
-	X = copied_df #features
-	X_train, X_val, y_train, y_val = train_test_split(X, y,
-		test_size=0.25, stratify=X[stratify_by] if stratify_by else None, random_state=42)
-	return X, y, X_train, X_val, y_train, y_val
+    #df is a data frame to split into train and test sets
+    #stratify_by is str of the feature to stratify by if provided, else none
+    #e.g. "Workclass" 
+    copied_df = df.copy()
+    y = copied_df.pop('salary') #labels
+    X = copied_df #features
+    X_train, X_val, y_train, y_val = train_test_split(X, y,
+        test_size=0.25, stratify=X[stratify_by] if stratify_by else None, random_state=42)
+    return X, y, X_train, X_val, y_train, y_val
 
 def train_models(df, stratify_by=None):
-	'''
-	Trains logistic regression and random forest models
-	input:
-		features_train: features training data
-		features_test: features testing data
-		labels_train: labels training data
-		labels_test: labels testing data
-	output:
-		None
-		Cell may take up to 15-20 minutes to run
-	'''
-	# Create file to store model
-	filename = '/models'
-	current_dir = os.getcwd()
-	models = current_dir + filename
-	if not os.path.isdir(models):
-		os.umask(0)
-		os.makedirs(models)
-		if not os.path.exists(current_dir + filename):
-			with open(models, 'w', encoding='utf-8'):
-				pass
+    '''
+    Trains logistic regression and random forest models
+    input:
+        features_train: features training data
+        features_test: features testing data
+        labels_train: labels training data
+        labels_test: labels testing data
+    output:
+        None
+        Cell may take up to 15-20 minutes to run
+    '''
+    # Create file to store model
+    filename = '/models'
+    current_dir = os.getcwd()
+    models = current_dir + filename
+    if not os.path.isdir(models):
+        os.umask(0)
+        os.makedirs(models)
+        if not os.path.exists(current_dir + filename):
+            with open(models, 'w', encoding='utf-8'):
+                pass
 
-	y = df.pop('salary') #labels
-	X = df 
-	features_train, features_test, labels_train, labels_test = train_test_split(X, y,
-		test_size=0.3, stratify=y, shuffle=True, random_state=42)# if stratify_by else None, random_state=42)
-	# Create Random Forest classifier and logistic regression classifier
-	rfc=RandomForestClassifier()
-	lrc=LogisticRegression(solver ='lbfgs', max_iter=3000)
+    y = df.pop('salary') #labels
+    X = df 
+    features_train, features_test, labels_train, labels_test = train_test_split(X, y,
+        test_size=0.3, stratify=y, shuffle=True, random_state=42)# if stratify_by else None, random_state=42)
+    # Create Random Forest classifier and logistic regression classifier
+    rfc=RandomForestClassifier()
+    lrc=LogisticRegression(solver ='lbfgs', max_iter=3000)
 
-	# Grid search for random forest classifier
-	param_grid={
-	    'n_estimators': [200, 500],
-	    'max_depth' : [4,5,100],
-	    'criterion' :['gini', 'entropy'],
-	    'max_features': ['sqrt']}
-	cv_rfc = GridSearchCV(estimator=rfc, param_grid=param_grid, cv=5)
+    # Grid search for random forest classifier
+    param_grid={
+        'n_estimators': [200, 500],
+        'max_depth' : [4,5,100],
+        'criterion' :['gini', 'entropy'],
+        'max_features': ['sqrt']}
+    cv_rfc = GridSearchCV(estimator=rfc, param_grid=param_grid, cv=5)
 
-	# Fit both classifiers
-	cv_rfc.fit(features_train, labels_train)
-	lrc.fit(features_train, labels_train)
+    # Fit both classifiers
+    cv_rfc.fit(features_train, labels_train)
+    lrc.fit(features_train, labels_train)
 
-	# Save best models
-	joblib.dump(cv_rfc.best_estimator_, './models/rfc_model.pkl')
-	joblib.dump(lrc, './models/logistic_model.pkl')
-	print ('success, finally')
+    # Save best models
+    joblib.dump(cv_rfc.best_estimator_, './models/rfc_model.pkl')
+    joblib.dump(lrc, './models/logistic_model.pkl')
+    print ('success, finally')
 
 def classification_report_image(labels_train, labels_test, y_train_preds_lr,
     y_train_preds_rf, y_test_preds_lr, y_test_preds_rf):
@@ -388,19 +388,75 @@ def tree_explainer_plot(model, features_test):
     plt.savefig('./figure_file/tree_explainer.png')
     plt.close()
 
+def test_slices(feature_df, label_df, feature=None):
+    """
+    Input:
+        feature_df = Test set of features from processed data frame
+        label_df = Test set of labels from processed data frame
+        feature = specific feature to get metrics on. If None, get metrics for
+        all categorical features
+    """
+    try:
+        assert os.path.exists('./models/rfc_model.pkl')
+        cv_rfc = joblib.load('./models/rfc_model.pkl')
+    except AssertionError:
+        print ("No trained model exists!")
+
+    cat_features = ["workclass", "education", "marital-status", "occupation",
+    "relationship", "race", "sex", "native-country"]
+
+    # Map categorical values prior to one-hot incoding to numeric categorical values
+    raw_df = download()
+    processed = process_data(raw_df)
+    raw_unique = list(raw_df[feature][0:].unique()) 
+    one_hot = list(processed[feature][0:].unique())
+    both = list(zip(raw_unique, one_hot))
+
+    if feature is not None:
+        try: 
+            assert feature in cat_features 
+            for (subcategory, hot) in both: 
+                subset = feature_df.loc[feature_df[feature]==hot] #split into subsets
+                label_subset = label_df.loc[feature_df[feature]==hot] #sync labels df
+                try:
+                    preds = cv_rfc.predict(subset) #predict on features subset
+                except ValueError:
+                    pass
+                with open('slice_metrics.txt', 'a') as f:
+                    try:
+                        report = str(classification_report(label_subset, preds))                        
+                        print(f"Classification report for {feature}: {subcategory} is ", file=f) 
+
+                        print (report, file=f)
+                    except ValueError:
+                        pass
+                    try:
+                        auc = roc_auc_score(label_subset, preds)
+                        print (f"Roc AUC score for {feature}: {subcategory} is: {auc}", file=f)
+                    except ValueError:
+                        pass
+
+        except AssertionError:
+            print(f"Input feature must be a feature from list: {cat_features}")
+
+
 if __name__ == '__main__':
     # Load data, perform eda, encode categorical features, and engineer features
     data_frame = download()
+    d1 = list(data_frame['race'][0:500].unique())
     data_frame = process_data(data_frame)
+    d2 = list(data_frame['race'][0:500].unique())
+    #print (list(zip(d1,d2)))
+
     features, labels, features_train, features_test,\
     labels_train, labels_test = split(data_frame)
 
     # Train models if models not yet already created
-    #if os.path.exists('./models/rfc_model.pkl'):#isdir('./models'):
-    #    print ('trained models exist')
-    #else:
-    #    train_models(data_frame)#features_train, features_test, labels_train, labels_test)
-    #    print ('models trained for the first time')
+    if os.path.exists('./models/rfc_model.pkl'):#isdir('./models'):
+        print ('trained models exist')
+    else:
+        train_models(data_frame)#features_train, features_test, labels_train, labels_test)
+        print ('models trained for the first time')
     cv_rfc = joblib.load('./models/rfc_model.pkl')
     lrc = joblib.load('./models/logistic_model.pkl')
 
@@ -409,6 +465,16 @@ if __name__ == '__main__':
     labels_test_preds_rf = cv_rfc.predict(features_test)
     labels_train_preds_lr = lrc.predict(features_train)
     labels_test_preds_lr = lrc.predict(features_test)
+    cat_features = ["workclass", "education", "marital-status", "occupation",
+    "relationship", "race", "sex", "native-country"]
+
+    test_slices(features_test, labels_test, feature='workclass')
+    test_slices(features_test, labels_test, feature='education')
+    test_slices(features_test, labels_test, feature='marital-status')
+    test_slices(features_test, labels_test, feature='occupation')
+    test_slices(features_test, labels_test, feature='relationship')
+    test_slices(features_test, labels_test, feature='sex')
+    test_slices(features_test, labels_test, feature='native-country')
     print (roc_auc_score(labels_test, labels_test_preds_rf))
 
     # Create images
