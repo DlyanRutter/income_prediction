@@ -1,3 +1,6 @@
+import io
+import pathlib
+import joblib
 import pandas as pd
 import numpy as np
 import requests
@@ -21,7 +24,8 @@ logging.basicConfig(
     filename='./data_logs.log',  # Path to log file
     level=logging.INFO,  # Log info, warnings, errors, and critical errors
     filemode='a',  # Create log file if one doesn't already exist and add to existing log with each run
-    format='%(asctime)s-%(name)s - %(levelname)s - %(message)s', # Format log string
+    format='%(asctime)s-%(name)s - %(levelname)s - %(message)s',
+      # Format log string
     datefmt='%d %b %Y %H:%M:%S %Z',  # Format date
     force=True)  # Create separate log files, basic_config only configures unconfigured root files
 logger = logging.getLogger()
@@ -36,7 +40,7 @@ def download(
     filename='data.csv',
      online=False):
 	"""
-	Retrieve CSV file and save locally if desired.
+	Retrieve CSV file and return pandas data frame.
 	Url is path to csv file.
 	Local path is path to data.py
 	Filename is name of file to save as
@@ -44,6 +48,7 @@ def download(
 	"""
 	# basename = pathlib.Path(url).name.split("?")[0].split("#")[0]
 	data_file = local_path + filename
+	# Save file to local machine if file doesn't yet exist
 	if not os.path.exists(data_file) and online == False:
 		with open(data_file, 'wb+') as data:
 			with requests.get(url, stream=True) as raw_data:
@@ -68,47 +73,53 @@ def download(
 	except FileNotFoundError:
 		logger.info("Data file not found")
 
-def process_data(df, scale=True, for_training=False):
-    # remove whitespace from column names for easier indexing
-    df.columns = df.columns.str.replace(' ', '')
-    # drop duplicates
-    logger.info("Dropping duplicates")
-    df = df.drop_duplicates().reset_index(drop=True)
 
-    # Binarize labels
-    df['salary'] = df['salary'].apply(
+#data_frame = download()
+
+
+def process_data(df):
+	# remove whitespace from column names for easier indexing
+	df.columns = df.columns.str.replace(' ', '')
+	# drop duplicates
+	logger.info("Dropping duplicates")
+	df = df.drop_duplicates().reset_index(drop=True)
+
+	# Binarize labels
+	df['salary'] = df['salary'].apply(
         lambda val: 0 if val == ">50K" else 1)
 
 	# Dropping capital gain outliers [There were 159 at exactly 99999]
-    idx = df['capital-gain'].between(0, 99998)
-    df = df[idx].copy()
+	idx = df['capital-gain'].between(0, 99998)
+	df = df[idx].copy()
 
-    # Specify numeric and categorical features
-    cat_features = ["workclass", "education", "marital-status", "occupation",
-    "relationship", "race", "sex", "native-country"]
-    num_features = ['age', 'fnlgt', 'education-num', 'capital-gain',
+	# Specify numeric and categorical features
+	cat_features = ["workclass", "education", "marital-status", "occupation",
+	"relationship", "race", "sex", "native-country"]
+	num_features = ['age', 'fnlgt', 'education-num', 'capital-gain',
     'capital-loss', 'hours-per-week']
 
     # Encode categorical features
-    for cat in cat_features:
-        df[cat] = df[cat].astype('category')
-        df[cat] = df[cat].cat.codes
+	for cat in cat_features:
+		df[cat] = df[cat].astype('category')
+		df[cat] = df[cat].cat.codes
 
-    imputer = SimpleImputer(strategy="most_frequent") 
-    df = pd.DataFrame(imputer.fit_transform(df), columns=df.columns)
-    if for_training==True:
-        salary = df['salary']
-        df = df.drop('salary', axis=1)  
-        # Standardize numerical data
-        df_z_scaled = df.copy()
-        for num in num_features:
-            df_z_scaled[num] = \
-            (df_z_scaled[num] - df_z_scaled[num].mean()) / df_z_scaled[num].std()
-        df.to_csv('clean_data', index=False)
-        df_z_scaled['salary'] = salary
-        return df_z_scaled
-    else:
-        return df
+    # Impute missing values for numeric and categorical features 
+	imputer = SimpleImputer(strategy="most_frequent")
+	df = pd.DataFrame(imputer.fit_transform(df), columns=df.columns)
+
+	salary = df['salary']
+	df = df.drop('salary', axis=1)  
+	# Standardize numerical data
+	df_z_scaled = df.copy()
+	for num in num_features:
+		df_z_scaled[num] = \
+		(df_z_scaled[num] - df_z_scaled[num].mean()) / df_z_scaled[num].std()
+	#df.to_csv('clean_data', index=False)
+	df_z_scaled['salary'] = salary
+	return df_z_scaled
+
+#data_frame = process_data(data_frame)
+
 
 def slices(feature, df, classes=None, property=None):
 	"""
@@ -122,15 +133,15 @@ def slices(feature, df, classes=None, property=None):
 		["Federal-gov", "Local-gov", "Never-worked", "Private", "Self-emp-inc",
 		"Self-emp-not-inc", "?", "State-gov", "Without-pay"] for workclass feature
 	
-	Example:
+	"""
+	# Show mean possible numeric values of all potential workclass categoricals
+	"""
 		                        age          fnlgt  ...  capital-loss  hours-per-week
 	workclass                                   ...                              
 	?                 40.960240  188516.338235  ...     60.760349       31.919390
 	Federal-gov       42.590625  185221.243750  ...    112.268750       41.379167
 	Local-gov         41.751075  188639.712852  ...    109.854276       40.982800
 	"""
-
-	# Show mean possible numeric values of all potential workclass categoricals
 	mean_df = df.groupby(feature).mean(numeric_only=True) 
 	std_df = df.groupby(feature).std(numeric_only=True) 
 
@@ -138,11 +149,11 @@ def slices(feature, df, classes=None, property=None):
 		print (mean_df)
 		print (std_df)
 
-	if property and not classes: # Show all labels for a specific row, ex all labels for ?
+	if property and not classes:
 		print (mean_df[property])
 		print (std_df[property])
 
-	if property and classes: # Show one lable for a specific row, i.e. age for ?
+	if property and classes:
 		for cls in classes:
 			std = std_df.loc[cls][property]
 			mn = mean_df.loc[cls][property]
@@ -151,11 +162,11 @@ def slices(feature, df, classes=None, property=None):
 
 	if classes and not property:
 		raise ValueError("Can't have a property without a class")
-#slices('workclass', data_frame, classes=['Never-worked', 'Federal-gov'], property='education-num')
+	#slices('workclass', data_frame, classes=['Never-worked', 'Federal-gov'], property='education-num')
 
-	
+
 def split(df, stratify_by=None):
-	
+
 	#df is a data frame to split into train and test sets
 	#stratify_by is str of the feature to stratify by if provided, else none
 	#e.g. "Workclass" 
@@ -163,10 +174,7 @@ def split(df, stratify_by=None):
 	y = copied_df.pop('salary') #labels
 	X = copied_df #features
 	X_train, X_val, y_train, y_val = train_test_split(X, y,
-		test_size=0.25, 
-		stratify=X[stratify_by] if stratify_by else y, #Ensure balance of features or label
-		random_state=42,
-		shuffle=True)
+		test_size=0.25, stratify=X[stratify_by] if stratify_by else None, random_state=42)
 	return X, y, X_train, X_val, y_train, y_val
 
 def train_models(df, stratify_by=None):
@@ -353,28 +361,48 @@ def feature_importance_plot(model, x_data, output_pth='figure_file', show_plot=F
         plt.show()
     plt.close()
 
+def tree_explainer_plot(model, features_test):
+    '''
+    Explain the output of ensemble model and store plot in image file
+    Inputs:
+        model: Tree model
+        features_test: Features test data
+    Output:
+        None
+    '''
+    # Create or open storage file
+    filename = '/figure_file'
+    current_dir = os.getcwd()
+    figure_file = current_dir + filename
+    if not os.path.isdir(figure_file):
+        os.umask(0)
+        os.makedirs(figure_file)
+    if not os.path.exists(current_dir + filename):
+        with open(figure_file, 'w', encoding='utf-8'):
+            pass
+
+    # Create and save Shap summary plot
+    explainer = shap.TreeExplainer(model)
+    shap_values = explainer.shap_values(features_test)
+    shap.summary_plot(shap_values, features_test, plot_type="bar", show=False)
+    plt.savefig('./figure_file/tree_explainer.png')
+    plt.close()
 
 if __name__ == '__main__':
     # Load data, perform eda, encode categorical features, and engineer features
     data_frame = download()
     data_frame = process_data(data_frame)
-    
-    # Train and save models if models not yet already created
-    if os.path.exists('./models/rfc_model.pkl'):
-        print ('trained models exist')
-        data_frame = process_data(data_frame)
-    else:
-        data_frame = process_data(data_frame, for_training=True)
-        train_models(data_frame)
-        print ('models trained for the first time')
-
-    # Load models    
-    cv_rfc = joblib.load('./models/rfc_model.pkl')
-    lrc = joblib.load('./models/logistic_model.pkl')
-
-    # Split df into train and test sets
     features, labels, features_train, features_test,\
     labels_train, labels_test = split(data_frame)
+
+    # Train models if models not yet already created
+    #if os.path.exists('./models/rfc_model.pkl'):#isdir('./models'):
+    #    print ('trained models exist')
+    #else:
+    #    train_models(data_frame)#features_train, features_test, labels_train, labels_test)
+    #    print ('models trained for the first time')
+    cv_rfc = joblib.load('./models/rfc_model.pkl')
+    lrc = joblib.load('./models/logistic_model.pkl')
 
     # Establish predictions and produce roc auc score
     labels_train_preds_rf = cv_rfc.predict(features_train)
@@ -388,5 +416,4 @@ if __name__ == '__main__':
         labels_train_preds_rf, labels_test_preds_lr, labels_test_preds_rf)
     roc_plots(labels_test, labels_test_preds_rf, labels_test_preds_lr)
     feature_importance_plot(cv_rfc, features)
-
-    
+    #tree_explainer_plot(cv_rfc, features_test)
