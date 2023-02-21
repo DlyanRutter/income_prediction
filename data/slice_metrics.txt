@@ -1,0 +1,1040 @@
+Classification report for workclass: State-gov is 
+              precision    recall  f1-score   support
+
+           0       0.91      0.87      0.89        92
+           1       0.95      0.97      0.96       255
+
+    accuracy                           0.94       347
+   macro avg       0.93      0.92      0.92       347
+weighted avg       0.94      0.94      0.94       347
+
+Roc AUC score for workclass: State-gov is: 0.9190963341858482
+Classification report for workclass: Self-emp-not-inc is 
+              precision    recall  f1-score   support
+
+           0       0.95      0.84      0.89       170
+           1       0.95      0.98      0.96       501
+
+    accuracy                           0.95       671
+   macro avg       0.95      0.91      0.93       671
+weighted avg       0.95      0.95      0.95       671
+
+Roc AUC score for workclass: Self-emp-not-inc is: 0.9096630268874017
+Classification report for workclass: Private is 
+              precision    recall  f1-score   support
+
+           0       0.93      0.88      0.90      1198
+           1       0.97      0.98      0.97      4428
+
+    accuracy                           0.96      5626
+   macro avg       0.95      0.93      0.94      5626
+weighted avg       0.96      0.96      0.96      5626
+
+Roc AUC score for workclass: Private is: 0.9289711247140295
+Classification report for workclass: Federal-gov is 
+              precision    recall  f1-score   support
+
+           0       0.93      0.90      0.91        86
+           1       0.94      0.96      0.95       152
+
+    accuracy                           0.94       238
+   macro avg       0.93      0.93      0.93       238
+weighted avg       0.94      0.94      0.94       238
+
+Roc AUC score for workclass: Federal-gov is: 0.927937576499388
+Classification report for workclass: Local-gov is 
+              precision    recall  f1-score   support
+
+           0       0.92      0.92      0.92       133
+           1       0.97      0.97      0.97       360
+
+    accuracy                           0.96       493
+   macro avg       0.95      0.95      0.95       493
+weighted avg       0.96      0.96      0.96       493
+
+Roc AUC score for workclass: Local-gov is: 0.9471282372598163
+Classification report for workclass: ? is 
+              precision    recall  f1-score   support
+
+           0       0.92      0.81      0.86        42
+           1       0.98      0.99      0.99       412
+
+    accuracy                           0.98       454
+   macro avg       0.95      0.90      0.92       454
+weighted avg       0.98      0.98      0.98       454
+
+Roc AUC score for workclass: ? is: 0.9011211280628756
+Classification report for workclass: Self-emp-inc is 
+              precision    recall  f1-score   support
+
+           0       0.90      0.93      0.92       135
+           1       0.93      0.89      0.91       127
+
+    accuracy                           0.91       262
+   macro avg       0.91      0.91      0.91       262
+weighted avg       0.91      0.91      0.91       262
+
+Roc AUC score for workclass: Self-emp-inc is: 0.9115485564304462
+Classification report for workclass: Without-pay is 
+              precision    recall  f1-score   support
+
+           1       1.00      1.00      1.00         3
+
+    accuracy                           1.00         3
+   macro avg       1.00      1.00      1.00         3
+weighted avg       1.00      1.00      1.00         3
+
+Classification report for workclass: Never-worked is 
+              precision    recall  f1-score   support
+
+           1       1.00      1.00      1.00         1
+
+    accuracy                           1.00         1
+   macro avg       1.00      1.00      1.00         1
+weighted avg       1.00      1.00      1.00         1
+
+Classification report for education: Bachelors is 
+              precision    recall  f1-score   support
+
+           0       0.92      0.92      0.92       532
+           1       0.95      0.95      0.95       779
+
+    accuracy                           0.94      1311
+   macro avg       0.94      0.94      0.94      1311
+weighted avg       0.94      0.94      0.94      1311
+
+Roc AUC score for education: Bachelors is: 0.9351503759398495
+Classification report for education: HS-grad is 
+              precision    recall  f1-score   support
+
+           0       0.91      0.80      0.85       377
+           1       0.97      0.99      0.98      2217
+
+    accuracy                           0.96      2594
+   macro avg       0.94      0.90      0.92      2594
+weighted avg       0.96      0.96      0.96      2594
+
+Roc AUC score for education: HS-grad is: 0.895316394056537
+Classification report for education: 11th is 
+              precision    recall  f1-score   support
+
+           0       1.00      0.82      0.90        22
+           1       0.99      1.00      0.99       295
+
+    accuracy                           0.99       317
+   macro avg       0.99      0.91      0.95       317
+weighted avg       0.99      0.99      0.99       317
+
+Roc AUC score for education: 11th is: 0.9090909090909091
+Classification report for education: Masters is 
+              precision    recall  f1-score   support
+
+           0       0.94      0.95      0.94       224
+           1       0.94      0.93      0.94       202
+
+    accuracy                           0.94       426
+   macro avg       0.94      0.94      0.94       426
+weighted avg       0.94      0.94      0.94       426
+
+Roc AUC score for education: Masters is: 0.9407929632248938
+Classification report for education: 9th is 
+              precision    recall  f1-score   support
+
+           0       1.00      0.62      0.77         8
+           1       0.98      1.00      0.99       128
+
+    accuracy                           0.98       136
+   macro avg       0.99      0.81      0.88       136
+weighted avg       0.98      0.98      0.98       136
+
+Roc AUC score for education: 9th is: 0.8125
+Classification report for education: Some-college is 
+              precision    recall  f1-score   support
+
+           0       0.91      0.80      0.85       324
+           1       0.96      0.98      0.97      1527
+
+    accuracy                           0.95      1851
+   macro avg       0.93      0.89      0.91      1851
+weighted avg       0.95      0.95      0.95      1851
+
+Roc AUC score for education: Some-college is: 0.892393703461156
+Classification report for education: Assoc-acdm is 
+              precision    recall  f1-score   support
+
+           0       0.90      0.93      0.92        61
+           1       0.98      0.97      0.98       205
+
+    accuracy                           0.96       266
+   macro avg       0.94      0.95      0.95       266
+weighted avg       0.96      0.96      0.96       266
+
+Roc AUC score for education: Assoc-acdm is: 0.9525789684126349
+Classification report for education: Assoc-voc is 
+              precision    recall  f1-score   support
+
+           0       0.96      0.92      0.94       111
+           1       0.96      0.98      0.97       250
+
+    accuracy                           0.96       361
+   macro avg       0.96      0.95      0.96       361
+weighted avg       0.96      0.96      0.96       361
+
+Roc AUC score for education: Assoc-voc is: 0.9514594594594594
+Classification report for education: 7th-8th is 
+              precision    recall  f1-score   support
+
+           0       1.00      0.56      0.71         9
+           1       0.97      1.00      0.99       154
+
+    accuracy                           0.98       163
+   macro avg       0.99      0.78      0.85       163
+weighted avg       0.98      0.98      0.97       163
+
+Roc AUC score for education: 7th-8th is: 0.7777777777777778
+Classification report for education: Doctorate is 
+              precision    recall  f1-score   support
+
+           0       0.94      0.96      0.95        75
+           1       0.86      0.79      0.83        24
+
+    accuracy                           0.92        99
+   macro avg       0.90      0.88      0.89        99
+weighted avg       0.92      0.92      0.92        99
+
+Roc AUC score for education: Doctorate is: 0.8758333333333332
+Classification report for education: Prof-school is 
+              precision    recall  f1-score   support
+
+           0       0.94      0.97      0.95        94
+           1       0.91      0.83      0.87        36
+
+    accuracy                           0.93       130
+   macro avg       0.92      0.90      0.91       130
+weighted avg       0.93      0.93      0.93       130
+
+Roc AUC score for education: Prof-school is: 0.9007092198581561
+Classification report for education: 5th-6th is 
+              precision    recall  f1-score   support
+
+           0       1.00      0.80      0.89         5
+           1       0.98      1.00      0.99        65
+
+    accuracy                           0.99        70
+   macro avg       0.99      0.90      0.94        70
+weighted avg       0.99      0.99      0.98        70
+
+Roc AUC score for education: 5th-6th is: 0.9
+Classification report for education: 10th is 
+              precision    recall  f1-score   support
+
+           0       1.00      0.70      0.82        10
+           1       0.99      1.00      0.99       218
+
+    accuracy                           0.99       228
+   macro avg       0.99      0.85      0.91       228
+weighted avg       0.99      0.99      0.99       228
+
+Roc AUC score for education: 10th is: 0.85
+Classification report for education: 1st-4th is 
+              precision    recall  f1-score   support
+
+           1       1.00      1.00      1.00        34
+
+    accuracy                           1.00        34
+   macro avg       1.00      1.00      1.00        34
+weighted avg       1.00      1.00      1.00        34
+
+Classification report for education: Preschool is 
+              precision    recall  f1-score   support
+
+           1       1.00      1.00      1.00        11
+
+    accuracy                           1.00        11
+   macro avg       1.00      1.00      1.00        11
+weighted avg       1.00      1.00      1.00        11
+
+Classification report for education: 12th is 
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00         4
+           1       1.00      1.00      1.00        94
+
+    accuracy                           1.00        98
+   macro avg       1.00      1.00      1.00        98
+weighted avg       1.00      1.00      1.00        98
+
+Roc AUC score for education: 12th is: 1.0
+Classification report for marital-status: Never-married is 
+              precision    recall  f1-score   support
+
+           0       0.98      0.82      0.89       110
+           1       0.99      1.00      1.00      2573
+
+    accuracy                           0.99      2683
+   macro avg       0.99      0.91      0.94      2683
+weighted avg       0.99      0.99      0.99      2683
+
+Roc AUC score for marital-status: Never-married is: 0.9087022577111966
+Classification report for marital-status: Married-civ-spouse is 
+              precision    recall  f1-score   support
+
+           0       0.92      0.89      0.91      1577
+           1       0.92      0.94      0.93      2103
+
+    accuracy                           0.92      3680
+   macro avg       0.92      0.92      0.92      3680
+weighted avg       0.92      0.92      0.92      3680
+
+Roc AUC score for marital-status: Married-civ-spouse is: 0.9166979502965689
+Classification report for marital-status: Divorced is 
+              precision    recall  f1-score   support
+
+           0       0.99      0.76      0.86       121
+           1       0.97      1.00      0.99      1005
+
+    accuracy                           0.97      1126
+   macro avg       0.98      0.88      0.92      1126
+weighted avg       0.97      0.97      0.97      1126
+
+Roc AUC score for marital-status: Divorced is: 0.8796677768183874
+Classification report for marital-status: Married-spouse-absent is 
+              precision    recall  f1-score   support
+
+           0       1.00      0.50      0.67         6
+           1       0.97      1.00      0.98        97
+
+    accuracy                           0.97       103
+   macro avg       0.98      0.75      0.83       103
+weighted avg       0.97      0.97      0.97       103
+
+Roc AUC score for marital-status: Married-spouse-absent is: 0.75
+Classification report for marital-status: Separated is 
+              precision    recall  f1-score   support
+
+           0       1.00      0.81      0.90        16
+           1       0.99      1.00      0.99       213
+
+    accuracy                           0.99       229
+   macro avg       0.99      0.91      0.94       229
+weighted avg       0.99      0.99      0.99       229
+
+Roc AUC score for marital-status: Separated is: 0.90625
+Classification report for marital-status: Married-AF-spouse is 
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00         3
+           1       1.00      1.00      1.00         6
+
+    accuracy                           1.00         9
+   macro avg       1.00      1.00      1.00         9
+weighted avg       1.00      1.00      1.00         9
+
+Roc AUC score for marital-status: Married-AF-spouse is: 1.0
+Classification report for marital-status: Widowed is 
+              precision    recall  f1-score   support
+
+           0       1.00      0.87      0.93        23
+           1       0.99      1.00      0.99       242
+
+    accuracy                           0.99       265
+   macro avg       0.99      0.93      0.96       265
+weighted avg       0.99      0.99      0.99       265
+
+Roc AUC score for marital-status: Widowed is: 0.9347826086956521
+Classification report for occupation: Adm-clerical is 
+              precision    recall  f1-score   support
+
+           0       0.88      0.85      0.87       117
+           1       0.98      0.98      0.98       833
+
+    accuracy                           0.97       950
+   macro avg       0.93      0.92      0.93       950
+weighted avg       0.97      0.97      0.97       950
+
+Roc AUC score for occupation: Adm-clerical is: 0.9195473061019278
+Classification report for occupation: Exec-managerial is 
+              precision    recall  f1-score   support
+
+           0       0.94      0.91      0.92       464
+           1       0.92      0.95      0.94       539
+
+    accuracy                           0.93      1003
+   macro avg       0.93      0.93      0.93      1003
+weighted avg       0.93      0.93      0.93      1003
+
+Roc AUC score for occupation: Exec-managerial is: 0.9295450546989956
+Classification report for occupation: Handlers-cleaners is 
+              precision    recall  f1-score   support
+
+           0       0.89      0.76      0.82        21
+           1       0.98      0.99      0.99       330
+
+    accuracy                           0.98       351
+   macro avg       0.94      0.88      0.90       351
+weighted avg       0.98      0.98      0.98       351
+
+Roc AUC score for occupation: Handlers-cleaners is: 0.8779220779220778
+Classification report for occupation: Prof-specialty is 
+              precision    recall  f1-score   support
+
+           0       0.94      0.92      0.93       468
+           1       0.94      0.95      0.95       590
+
+    accuracy                           0.94      1058
+   macro avg       0.94      0.94      0.94      1058
+weighted avg       0.94      0.94      0.94      1058
+
+Roc AUC score for occupation: Prof-specialty is: 0.9367412719107634
+Classification report for occupation: Other-service is 
+              precision    recall  f1-score   support
+
+           0       0.83      0.80      0.82        25
+           1       0.99      0.99      0.99       796
+
+    accuracy                           0.99       821
+   macro avg       0.91      0.90      0.91       821
+weighted avg       0.99      0.99      0.99       821
+
+Roc AUC score for occupation: Other-service is: 0.8974874371859297
+Classification report for occupation: Sales is 
+              precision    recall  f1-score   support
+
+           0       0.90      0.86      0.88       235
+           1       0.95      0.97      0.96       699
+
+    accuracy                           0.94       934
+   macro avg       0.93      0.92      0.92       934
+weighted avg       0.94      0.94      0.94       934
+
+Roc AUC score for occupation: Sales is: 0.9161781268072932
+Classification report for occupation: Craft-repair is 
+              precision    recall  f1-score   support
+
+           0       0.92      0.87      0.89       209
+           1       0.97      0.98      0.97       790
+
+    accuracy                           0.96       999
+   macro avg       0.94      0.92      0.93       999
+weighted avg       0.96      0.96      0.96       999
+
+Roc AUC score for occupation: Craft-repair is: 0.9235206831809096
+Classification report for occupation: Transport-moving is 
+              precision    recall  f1-score   support
+
+           0       0.88      0.75      0.81        81
+           1       0.94      0.97      0.96       307
+
+    accuracy                           0.93       388
+   macro avg       0.91      0.86      0.88       388
+weighted avg       0.93      0.93      0.93       388
+
+Roc AUC score for occupation: Transport-moving is: 0.863513893915631
+Classification report for occupation: Farming-fishing is 
+              precision    recall  f1-score   support
+
+           0       0.86      0.82      0.84        22
+           1       0.98      0.99      0.99       249
+
+    accuracy                           0.97       271
+   macro avg       0.92      0.90      0.91       271
+weighted avg       0.97      0.97      0.97       271
+
+Roc AUC score for occupation: Farming-fishing is: 0.9030668127053668
+Classification report for occupation: Machine-op-inspct is 
+              precision    recall  f1-score   support
+
+           0       0.95      0.84      0.89        63
+           1       0.98      0.99      0.98       428
+
+    accuracy                           0.97       491
+   macro avg       0.96      0.92      0.94       491
+weighted avg       0.97      0.97      0.97       491
+
+Roc AUC score for occupation: Machine-op-inspct is: 0.9171302477377244
+Classification report for occupation: Tech-support is 
+              precision    recall  f1-score   support
+
+           0       0.93      0.87      0.90        60
+           1       0.94      0.97      0.96       136
+
+    accuracy                           0.94       196
+   macro avg       0.94      0.92      0.93       196
+weighted avg       0.94      0.94      0.94       196
+
+Roc AUC score for occupation: Tech-support is: 0.9186274509803922
+Classification report for occupation: ? is 
+              precision    recall  f1-score   support
+
+           0       0.92      0.81      0.86        42
+           1       0.98      0.99      0.99       413
+
+    accuracy                           0.98       455
+   macro avg       0.95      0.90      0.92       455
+weighted avg       0.98      0.98      0.98       455
+
+Roc AUC score for occupation: ? is: 0.9011299435028249
+Classification report for occupation: Protective-serv is 
+              precision    recall  f1-score   support
+
+           0       0.98      0.85      0.91        47
+           1       0.93      0.99      0.96        91
+
+    accuracy                           0.94       138
+   macro avg       0.95      0.92      0.93       138
+weighted avg       0.94      0.94      0.94       138
+
+Roc AUC score for occupation: Protective-serv is: 0.9200374093991116
+Classification report for occupation: Armed-Forces is 
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00         1
+           1       1.00      1.00      1.00         1
+
+    accuracy                           1.00         2
+   macro avg       1.00      1.00      1.00         2
+weighted avg       1.00      1.00      1.00         2
+
+Roc AUC score for occupation: Armed-Forces is: 1.0
+Classification report for occupation: Priv-house-serv is 
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00         1
+           1       1.00      1.00      1.00        37
+
+    accuracy                           1.00        38
+   macro avg       1.00      1.00      1.00        38
+weighted avg       1.00      1.00      1.00        38
+
+Roc AUC score for occupation: Priv-house-serv is: 1.0
+Classification report for relationship: Not-in-family is 
+              precision    recall  f1-score   support
+
+           0       0.98      0.80      0.88       201
+           1       0.98      1.00      0.99      1890
+
+    accuracy                           0.98      2091
+   macro avg       0.98      0.90      0.93      2091
+weighted avg       0.98      0.98      0.98      2091
+
+Roc AUC score for relationship: Not-in-family is: 0.8972162994551054
+Classification report for relationship: Husband is 
+              precision    recall  f1-score   support
+
+           0       0.92      0.90      0.91      1396
+           1       0.92      0.94      0.93      1853
+
+    accuracy                           0.92      3249
+   macro avg       0.92      0.92      0.92      3249
+weighted avg       0.92      0.92      0.92      3249
+
+Roc AUC score for relationship: Husband is: 0.918291139436243
+Classification report for relationship: Wife is 
+              precision    recall  f1-score   support
+
+           0       0.91      0.88      0.89       177
+           1       0.90      0.92      0.91       203
+
+    accuracy                           0.90       380
+   macro avg       0.90      0.90      0.90       380
+weighted avg       0.90      0.90      0.90       380
+
+Roc AUC score for relationship: Wife is: 0.901269099106621
+Classification report for relationship: Own-child is 
+              precision    recall  f1-score   support
+
+           0       1.00      0.86      0.92        14
+           1       1.00      1.00      1.00      1285
+
+    accuracy                           1.00      1299
+   macro avg       1.00      0.93      0.96      1299
+weighted avg       1.00      1.00      1.00      1299
+
+Roc AUC score for relationship: Own-child is: 0.9285714285714286
+Classification report for relationship: Unmarried is 
+              precision    recall  f1-score   support
+
+           0       1.00      0.79      0.88        57
+           1       0.98      1.00      0.99       776
+
+    accuracy                           0.99       833
+   macro avg       0.99      0.89      0.94       833
+weighted avg       0.99      0.99      0.98       833
+
+Roc AUC score for relationship: Unmarried is: 0.8947368421052632
+Classification report for relationship: Other-relative is 
+              precision    recall  f1-score   support
+
+           0       1.00      0.55      0.71        11
+           1       0.98      1.00      0.99       232
+
+    accuracy                           0.98       243
+   macro avg       0.99      0.77      0.85       243
+weighted avg       0.98      0.98      0.98       243
+
+Roc AUC score for relationship: Other-relative is: 0.7727272727272727
+Classification report for sex: Male is 
+              precision    recall  f1-score   support
+
+           0       0.92      0.89      0.90      1568
+           1       0.95      0.97      0.96      3827
+
+    accuracy                           0.95      5395
+   macro avg       0.94      0.93      0.93      5395
+weighted avg       0.95      0.95      0.95      5395
+
+Roc AUC score for sex: Male is: 0.9282149722967317
+Classification report for sex: Female is 
+              precision    recall  f1-score   support
+
+           0       0.93      0.84      0.88       288
+           1       0.98      0.99      0.99      2412
+
+    accuracy                           0.98      2700
+   macro avg       0.96      0.92      0.94      2700
+weighted avg       0.98      0.98      0.98      2700
+
+Roc AUC score for sex: Female is: 0.9166148424543946
+Classification report for native-country: United-States is 
+              precision    recall  f1-score   support
+
+           0       0.93      0.88      0.90      1689
+           1       0.96      0.98      0.97      5536
+
+    accuracy                           0.96      7225
+   macro avg       0.95      0.93      0.94      7225
+weighted avg       0.95      0.96      0.96      7225
+
+Roc AUC score for native-country: United-States is: 0.9287460065469528
+Classification report for native-country: Cuba is 
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00         5
+           1       1.00      1.00      1.00        20
+
+    accuracy                           1.00        25
+   macro avg       1.00      1.00      1.00        25
+weighted avg       1.00      1.00      1.00        25
+
+Roc AUC score for native-country: Cuba is: 1.0
+Classification report for native-country: Jamaica is 
+              precision    recall  f1-score   support
+
+           0       1.00      0.50      0.67         2
+           1       0.94      1.00      0.97        16
+
+    accuracy                           0.94        18
+   macro avg       0.97      0.75      0.82        18
+weighted avg       0.95      0.94      0.94        18
+
+Roc AUC score for native-country: Jamaica is: 0.75
+Classification report for native-country: India is 
+              precision    recall  f1-score   support
+
+           0       0.85      1.00      0.92        11
+           1       1.00      0.88      0.94        17
+
+    accuracy                           0.93        28
+   macro avg       0.92      0.94      0.93        28
+weighted avg       0.94      0.93      0.93        28
+
+Roc AUC score for native-country: India is: 0.9411764705882353
+Classification report for native-country: ? is 
+              precision    recall  f1-score   support
+
+           0       0.87      0.92      0.89        36
+           1       0.97      0.95      0.96       107
+
+    accuracy                           0.94       143
+   macro avg       0.92      0.93      0.93       143
+weighted avg       0.95      0.94      0.94       143
+
+Roc AUC score for native-country: ? is: 0.9349688473520249
+Classification report for native-country: Mexico is 
+              precision    recall  f1-score   support
+
+           0       0.90      0.90      0.90        10
+           1       0.99      0.99      0.99       164
+
+    accuracy                           0.99       174
+   macro avg       0.95      0.95      0.95       174
+weighted avg       0.99      0.99      0.99       174
+
+Roc AUC score for native-country: Mexico is: 0.9469512195121951
+Classification report for native-country: South is 
+              precision    recall  f1-score   support
+
+           0       0.75      1.00      0.86         3
+           1       1.00      0.95      0.97        20
+
+    accuracy                           0.96        23
+   macro avg       0.88      0.97      0.92        23
+weighted avg       0.97      0.96      0.96        23
+
+Roc AUC score for native-country: South is: 0.975
+Classification report for native-country: Puerto-Rico is 
+              precision    recall  f1-score   support
+
+           0       1.00      0.67      0.80         3
+           1       0.96      1.00      0.98        25
+
+    accuracy                           0.96        28
+   macro avg       0.98      0.83      0.89        28
+weighted avg       0.97      0.96      0.96        28
+
+Roc AUC score for native-country: Puerto-Rico is: 0.8333333333333334
+Classification report for native-country: Honduras is 
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00         1
+           1       1.00      1.00      1.00         6
+
+    accuracy                           1.00         7
+   macro avg       1.00      1.00      1.00         7
+weighted avg       1.00      1.00      1.00         7
+
+Roc AUC score for native-country: Honduras is: 1.0
+Classification report for native-country: England is 
+              precision    recall  f1-score   support
+
+           0       1.00      0.75      0.86         4
+           1       0.94      1.00      0.97        17
+
+    accuracy                           0.95        21
+   macro avg       0.97      0.88      0.91        21
+weighted avg       0.96      0.95      0.95        21
+
+Roc AUC score for native-country: England is: 0.875
+Classification report for native-country: Canada is 
+              precision    recall  f1-score   support
+
+           0       1.00      0.90      0.95        10
+           1       0.96      1.00      0.98        25
+
+    accuracy                           0.97        35
+   macro avg       0.98      0.95      0.96        35
+weighted avg       0.97      0.97      0.97        35
+
+Roc AUC score for native-country: Canada is: 0.9500000000000001
+Classification report for native-country: Germany is 
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00         5
+           1       1.00      1.00      1.00        20
+
+    accuracy                           1.00        25
+   macro avg       1.00      1.00      1.00        25
+weighted avg       1.00      1.00      1.00        25
+
+Roc AUC score for native-country: Germany is: 1.0
+Classification report for native-country: Iran is 
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00         5
+           1       1.00      1.00      1.00         7
+
+    accuracy                           1.00        12
+   macro avg       1.00      1.00      1.00        12
+weighted avg       1.00      1.00      1.00        12
+
+Roc AUC score for native-country: Iran is: 1.0
+Classification report for native-country: Philippines is 
+              precision    recall  f1-score   support
+
+           0       1.00      0.85      0.92        20
+           1       0.92      1.00      0.96        36
+
+    accuracy                           0.95        56
+   macro avg       0.96      0.93      0.94        56
+weighted avg       0.95      0.95      0.95        56
+
+Roc AUC score for native-country: Philippines is: 0.9249999999999999
+Classification report for native-country: Italy is 
+              precision    recall  f1-score   support
+
+           0       1.00      0.75      0.86         8
+           1       0.86      1.00      0.92        12
+
+    accuracy                           0.90        20
+   macro avg       0.93      0.88      0.89        20
+weighted avg       0.91      0.90      0.90        20
+
+Roc AUC score for native-country: Italy is: 0.875
+Classification report for native-country: Poland is 
+              precision    recall  f1-score   support
+
+           0       0.60      1.00      0.75         3
+           1       1.00      0.85      0.92        13
+
+    accuracy                           0.88        16
+   macro avg       0.80      0.92      0.83        16
+weighted avg       0.93      0.88      0.89        16
+
+Roc AUC score for native-country: Poland is: 0.9230769230769231
+Classification report for native-country: Columbia is 
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00         1
+           1       1.00      1.00      1.00        11
+
+    accuracy                           1.00        12
+   macro avg       1.00      1.00      1.00        12
+weighted avg       1.00      1.00      1.00        12
+
+Roc AUC score for native-country: Columbia is: 1.0
+Classification report for native-country: Cambodia is 
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00         2
+           1       1.00      1.00      1.00         3
+
+    accuracy                           1.00         5
+   macro avg       1.00      1.00      1.00         5
+weighted avg       1.00      1.00      1.00         5
+
+Roc AUC score for native-country: Cambodia is: 1.0
+Classification report for native-country: Thailand is 
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00         2
+           1       1.00      1.00      1.00         5
+
+    accuracy                           1.00         7
+   macro avg       1.00      1.00      1.00         7
+weighted avg       1.00      1.00      1.00         7
+
+Roc AUC score for native-country: Thailand is: 1.0
+Classification report for native-country: Ecuador is 
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00         1
+           1       1.00      1.00      1.00         6
+
+    accuracy                           1.00         7
+   macro avg       1.00      1.00      1.00         7
+weighted avg       1.00      1.00      1.00         7
+
+Roc AUC score for native-country: Ecuador is: 1.0
+Classification report for native-country: Laos is 
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00         1
+           1       1.00      1.00      1.00         4
+
+    accuracy                           1.00         5
+   macro avg       1.00      1.00      1.00         5
+weighted avg       1.00      1.00      1.00         5
+
+Roc AUC score for native-country: Laos is: 1.0
+Classification report for native-country: Taiwan is 
+              precision    recall  f1-score   support
+
+           0       0.75      1.00      0.86         3
+           1       1.00      0.91      0.95        11
+
+    accuracy                           0.93        14
+   macro avg       0.88      0.95      0.90        14
+weighted avg       0.95      0.93      0.93        14
+
+Roc AUC score for native-country: Taiwan is: 0.9545454545454546
+Classification report for native-country: Haiti is 
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00         1
+           1       0.90      0.90      0.90        10
+
+    accuracy                           0.82        11
+   macro avg       0.45      0.45      0.45        11
+weighted avg       0.82      0.82      0.82        11
+
+Roc AUC score for native-country: Haiti is: 0.45
+Classification report for native-country: Portugal is 
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00         1
+           1       0.92      1.00      0.96        11
+
+    accuracy                           0.92        12
+   macro avg       0.46      0.50      0.48        12
+weighted avg       0.84      0.92      0.88        12
+
+Roc AUC score for native-country: Portugal is: 0.5
+Classification report for native-country: Dominican-Republic is 
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00         1
+           1       1.00      1.00      1.00        18
+
+    accuracy                           1.00        19
+   macro avg       1.00      1.00      1.00        19
+weighted avg       1.00      1.00      1.00        19
+
+Roc AUC score for native-country: Dominican-Republic is: 1.0
+Classification report for native-country: El-Salvador is 
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00         1
+           1       1.00      1.00      1.00        27
+
+    accuracy                           1.00        28
+   macro avg       1.00      1.00      1.00        28
+weighted avg       1.00      1.00      1.00        28
+
+Roc AUC score for native-country: El-Salvador is: 1.0
+Classification report for native-country: France is 
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00         1
+           1       1.00      1.00      1.00         4
+
+    accuracy                           1.00         5
+   macro avg       1.00      1.00      1.00         5
+weighted avg       1.00      1.00      1.00         5
+
+Roc AUC score for native-country: France is: 1.0
+Classification report for native-country: Guatemala is 
+              precision    recall  f1-score   support
+
+           1       1.00      1.00      1.00        21
+
+    accuracy                           1.00        21
+   macro avg       1.00      1.00      1.00        21
+weighted avg       1.00      1.00      1.00        21
+
+Classification report for native-country: China is 
+              precision    recall  f1-score   support
+
+           0       0.83      0.71      0.77         7
+           1       0.85      0.92      0.88        12
+
+    accuracy                           0.84        19
+   macro avg       0.84      0.82      0.82        19
+weighted avg       0.84      0.84      0.84        19
+
+Roc AUC score for native-country: China is: 0.8154761904761905
+Classification report for native-country: Japan is 
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00         4
+           1       1.00      1.00      1.00         8
+
+    accuracy                           1.00        12
+   macro avg       1.00      1.00      1.00        12
+weighted avg       1.00      1.00      1.00        12
+
+Roc AUC score for native-country: Japan is: 1.0
+Classification report for native-country: Yugoslavia is 
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00       1.0
+           1       0.00      0.00      0.00       1.0
+
+    accuracy                           0.00       2.0
+   macro avg       0.00      0.00      0.00       2.0
+weighted avg       0.00      0.00      0.00       2.0
+
+Roc AUC score for native-country: Yugoslavia is: 0.0
+Classification report for native-country: Peru is 
+              precision    recall  f1-score   support
+
+           1       1.00      1.00      1.00         3
+
+    accuracy                           1.00         3
+   macro avg       1.00      1.00      1.00         3
+weighted avg       1.00      1.00      1.00         3
+
+Classification report for native-country: Outlying-US(Guam-USVI-etc) is 
+              precision    recall  f1-score   support
+
+           1       1.00      1.00      1.00         3
+
+    accuracy                           1.00         3
+   macro avg       1.00      1.00      1.00         3
+weighted avg       1.00      1.00      1.00         3
+
+Classification report for native-country: Scotland is 
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00         2
+           1       1.00      1.00      1.00         3
+
+    accuracy                           1.00         5
+   macro avg       1.00      1.00      1.00         5
+weighted avg       1.00      1.00      1.00         5
+
+Roc AUC score for native-country: Scotland is: 1.0
+Classification report for native-country: Trinadad&Tobago is 
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00         1
+           1       1.00      1.00      1.00         4
+
+    accuracy                           1.00         5
+   macro avg       1.00      1.00      1.00         5
+weighted avg       1.00      1.00      1.00         5
+
+Roc AUC score for native-country: Trinadad&Tobago is: 1.0
+Classification report for native-country: Greece is 
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00         1
+           1       1.00      1.00      1.00         6
+
+    accuracy                           1.00         7
+   macro avg       1.00      1.00      1.00         7
+weighted avg       1.00      1.00      1.00         7
+
+Roc AUC score for native-country: Greece is: 1.0
+Classification report for native-country: Nicaragua is 
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00         1
+           1       1.00      1.00      1.00         6
+
+    accuracy                           1.00         7
+   macro avg       1.00      1.00      1.00         7
+weighted avg       1.00      1.00      1.00         7
+
+Roc AUC score for native-country: Nicaragua is: 1.0
+Classification report for native-country: Vietnam is 
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00         3
+           1       1.00      1.00      1.00        15
+
+    accuracy                           1.00        18
+   macro avg       1.00      1.00      1.00        18
+weighted avg       1.00      1.00      1.00        18
+
+Roc AUC score for native-country: Vietnam is: 1.0
+Classification report for native-country: Hong is 
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00         4
+           1       1.00      1.00      1.00         2
+
+    accuracy                           1.00         6
+   macro avg       1.00      1.00      1.00         6
+weighted avg       1.00      1.00      1.00         6
+
+Roc AUC score for native-country: Hong is: 1.0
+Classification report for native-country: Ireland is 
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00         1
+           1       0.80      1.00      0.89         4
+
+    accuracy                           0.80         5
+   macro avg       0.40      0.50      0.44         5
+weighted avg       0.64      0.80      0.71         5
+
+Roc AUC score for native-country: Ireland is: 0.5
+Classification report for native-country: Hungary is 
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00         1
+
+    accuracy                           1.00         1
+   macro avg       1.00      1.00      1.00         1
+weighted avg       1.00      1.00      1.00         1
+
