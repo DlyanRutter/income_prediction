@@ -4,21 +4,18 @@ import joblib
 import pandas as pd
 import numpy as np
 import requests
-import io
 import pathlib
 import joblib
 import os
 import logging
 from sklearn.impute import SimpleImputer
-from sklearn.model_selection import train_test_split, StratifiedShuffleSplit
+from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, roc_auc_score, RocCurveDisplay
 from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
-import shap
 import matplotlib.pyplot as plt
 import seaborn as sns
-
 
 logging.basicConfig(
     filename='./data_logs.log',  # Path to log file
@@ -29,10 +26,8 @@ logging.basicConfig(
     datefmt='%d %b %Y %H:%M:%S %Z',  # Format date
     force=True)  # Create separate log files, basic_config only configures unconfigured root files
 logger = logging.getLogger()
-
 url = "https://github.com/DlyanRutter/income_prediction/blob/main/data/data.csv?raw=True"
 local_path = '/Applications/python_files/income_prediction/data/'
-
 
 def download(
     url=url,
@@ -46,9 +41,8 @@ def download(
     Filename is name of file to save as
     Online true if you want to use the online file rather than a local version
     """
-    # basename = pathlib.Path(url).name.split("?")[0].split("#")[0]
+    # Save file to local machine if it doesn't already exist
     data_file = local_path + filename
-    # Save file to local machine if file doesn't yet exist
     if not os.path.exists(data_file) and online == False:
         with open(data_file, 'wb+') as data:
             with requests.get(url, stream=True) as raw_data:
@@ -74,10 +68,15 @@ def download(
         logger.info("Data file not found")
 
 
-#data_frame = download()
-
-
-def process_data(df):
+def process_data(df, save=True):
+    """
+    Remove space from columns. Drop duplicates. Binarize labels. Encode
+    categorical features. Impute missing values. Standardize numerical data.
+    Input: 
+        df: raw data frame. 
+        input: If true, save processed data as csv file
+    Output: cleaned data frame
+    """
     # remove whitespace from column names for easier indexing
     df.columns = df.columns.str.replace(' ', '')
     # drop duplicates
@@ -107,19 +106,21 @@ def process_data(df):
     imputer = SimpleImputer(strategy="most_frequent")
     df = pd.DataFrame(imputer.fit_transform(df), columns=df.columns)
 
+    # Split features and labels
     salary = df['salary']
     df = df.drop('salary', axis=1)  
+    
     # Standardize numerical data
     df_z_scaled = df.copy()
     for num in num_features:
         df_z_scaled[num] = \
         (df_z_scaled[num] - df_z_scaled[num].mean()) / df_z_scaled[num].std()
-    #df.to_csv('clean_data', index=False)
+
+    # Save if data file doesn't already exist
+    if not os.path.exists('./clean_data.csv') and save==True:
+        df_z_scaled.to_csv('clean_data.csv', index=False)
     df_z_scaled['salary'] = salary
     return df_z_scaled
-
-#data_frame = process_data(data_frame)
-
 
 def slices(feature, df, classes=None, property=None):
     """
@@ -162,14 +163,17 @@ def slices(feature, df, classes=None, property=None):
 
     if classes and not property:
         raise ValueError("Can't have a property without a class")
-    #slices('workclass', data_frame, classes=['Never-worked', 'Federal-gov'], property='education-num')
-
 
 def split(df, stratify_by=None):
-
-    #df is a data frame to split into train and test sets
-    #stratify_by is str of the feature to stratify by if provided, else none
-    #e.g. "Workclass" 
+    """
+    Split data into train and test sets
+    Inputs:
+        df: cleaned data frame
+        stratify_by: string of the feature to stratify by, if undefined, None
+    Outputs:
+        features, labels, train features, validation features, train labels,
+        validation labels
+    """
     copied_df = df.copy()
     y = copied_df.pop('salary') #labels
     X = copied_df #features
@@ -200,10 +204,12 @@ def train_models(df, stratify_by=None):
             with open(models, 'w', encoding='utf-8'):
                 pass
 
-    y = df.pop('salary') #labels
+    #split features and labels 
+    y = df.pop('salary') 
     X = df 
     features_train, features_test, labels_train, labels_test = train_test_split(X, y,
         test_size=0.3, stratify=y, shuffle=True, random_state=42)# if stratify_by else None, random_state=42)
+    
     # Create Random Forest classifier and logistic regression classifier
     rfc=RandomForestClassifier()
     lrc=LogisticRegression(solver ='lbfgs', max_iter=3000)
@@ -361,32 +367,6 @@ def feature_importance_plot(model, x_data, output_pth='figure_file', show_plot=F
         plt.show()
     plt.close()
 
-def tree_explainer_plot(model, features_test):
-    '''
-    Explain the output of ensemble model and store plot in image file
-    Inputs:
-        model: Tree model
-        features_test: Features test data
-    Output:
-        None
-    '''
-    # Create or open storage file
-    filename = '/figure_file'
-    current_dir = os.getcwd()
-    figure_file = current_dir + filename
-    if not os.path.isdir(figure_file):
-        os.umask(0)
-        os.makedirs(figure_file)
-    if not os.path.exists(current_dir + filename):
-        with open(figure_file, 'w', encoding='utf-8'):
-            pass
-
-    # Create and save Shap summary plot
-    explainer = shap.TreeExplainer(model)
-    shap_values = explainer.shap_values(features_test)
-    shap.summary_plot(shap_values, features_test, plot_type="bar", show=False)
-    plt.savefig('./figure_file/tree_explainer.png')
-    plt.close()
 
 def test_slices(feature_df, label_df, feature=None):
     """
@@ -396,6 +376,7 @@ def test_slices(feature_df, label_df, feature=None):
         feature = specific feature to get metrics on. If None, get metrics for
         all categorical features
     """
+    # Ensure models exist
     try:
         assert os.path.exists('./models/rfc_model.pkl')
         cv_rfc = joblib.load('./models/rfc_model.pkl')
@@ -405,28 +386,34 @@ def test_slices(feature_df, label_df, feature=None):
     cat_features = ["workclass", "education", "marital-status", "occupation",
     "relationship", "race", "sex", "native-country"]
 
-    # Map categorical values prior to one-hot incoding to numeric categorical values
+    # Map categorical string values to one-hot encoded values
     raw_df = download()
     processed = process_data(raw_df)
     raw_unique = list(raw_df[feature][0:].unique()) 
     one_hot = list(processed[feature][0:].unique())
     both = list(zip(raw_unique, one_hot))
 
+    # Ensure input feature is in list of categorical features
     if feature is not None:
         try: 
             assert feature in cat_features 
-            for (subcategory, hot) in both: 
-                subset = feature_df.loc[feature_df[feature]==hot] #split into subsets
-                label_subset = label_df.loc[feature_df[feature]==hot] #sync labels df
+            for (subcategory, hot) in both:
+                # Get subset of data rows containing sub-feature slice, e.g. "Male" in "Sex"  
+                subset = feature_df.loc[feature_df[feature]==hot]
+                # Get labels for matching slice indices 
+                label_subset = label_df.loc[feature_df[feature]==hot]
+
+                # Predict on features data set. ValueError if there are no predicted samples
                 try:
-                    preds = cv_rfc.predict(subset) #predict on features subset
-                except ValueError:
+                    preds = cv_rfc.predict(subset) 
+                except ValueError: 
                     pass
+
+                # Save classification report and ROC score for given slice to file
                 with open('slice_metrics.txt', 'a') as f:
                     try:
                         report = str(classification_report(label_subset, preds))                        
                         print(f"Classification report for {feature}: {subcategory} is ", file=f) 
-
                         print (report, file=f)
                     except ValueError:
                         pass
@@ -435,19 +422,18 @@ def test_slices(feature_df, label_df, feature=None):
                         print (f"Roc AUC score for {feature}: {subcategory} is: {auc}", file=f)
                     except ValueError:
                         pass
-
         except AssertionError:
             print(f"Input feature must be a feature from list: {cat_features}")
-
+    else:
+        print(f"Must input a feature from the list: {cat_features}")
+        
 
 if __name__ == '__main__':
     # Load data, perform eda, encode categorical features, and engineer features
     data_frame = download()
-    d1 = list(data_frame['race'][0:500].unique())
     data_frame = process_data(data_frame)
-    d2 = list(data_frame['race'][0:500].unique())
-    #print (list(zip(d1,d2)))
 
+    # Split data frame into train and test
     features, labels, features_train, features_test,\
     labels_train, labels_test = split(data_frame)
 
@@ -455,8 +441,10 @@ if __name__ == '__main__':
     if os.path.exists('./models/rfc_model.pkl'):#isdir('./models'):
         print ('trained models exist')
     else:
-        train_models(data_frame)#features_train, features_test, labels_train, labels_test)
+        train_models(data_frame)
         print ('models trained for the first time')
+
+    # load models
     cv_rfc = joblib.load('./models/rfc_model.pkl')
     lrc = joblib.load('./models/logistic_model.pkl')
 
@@ -465,21 +453,21 @@ if __name__ == '__main__':
     labels_test_preds_rf = cv_rfc.predict(features_test)
     labels_train_preds_lr = lrc.predict(features_train)
     labels_test_preds_lr = lrc.predict(features_test)
-    cat_features = ["workclass", "education", "marital-status", "occupation",
-    "relationship", "race", "sex", "native-country"]
-
-    test_slices(features_test, labels_test, feature='workclass')
-    test_slices(features_test, labels_test, feature='education')
-    test_slices(features_test, labels_test, feature='marital-status')
-    test_slices(features_test, labels_test, feature='occupation')
-    test_slices(features_test, labels_test, feature='relationship')
-    test_slices(features_test, labels_test, feature='sex')
-    test_slices(features_test, labels_test, feature='native-country')
-    print (roc_auc_score(labels_test, labels_test_preds_rf))
 
     # Create images
-    classification_report_image(labels_train, labels_test, labels_train_preds_lr,
-        labels_train_preds_rf, labels_test_preds_lr, labels_test_preds_rf)
-    roc_plots(labels_test, labels_test_preds_rf, labels_test_preds_lr)
-    feature_importance_plot(cv_rfc, features)
-    #tree_explainer_plot(cv_rfc, features_test)
+    if not os.path.exists('./figure_file'):
+        classification_report_image(labels_train, labels_test, labels_train_preds_lr,
+            labels_train_preds_rf, labels_test_preds_lr, labels_test_preds_rf)
+        roc_plots(labels_test, labels_test_preds_rf, labels_test_preds_lr)
+        feature_importance_plot(cv_rfc, features)
+
+    # Get slice metrics
+    if not os.path.exists('./slice_metrics.txt'):
+        test_slices(features_test, labels_test, feature='workclass')
+        test_slices(features_test, labels_test, feature='education')
+        test_slices(features_test, labels_test, feature='marital-status')
+        test_slices(features_test, labels_test, feature='occupation')
+        test_slices(features_test, labels_test, feature='relationship')
+        test_slices(features_test, labels_test, feature='sex')
+        test_slices(features_test, labels_test, feature='native-country')
+        print (roc_auc_score(labels_test, labels_test_preds_rf))
