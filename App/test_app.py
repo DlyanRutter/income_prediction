@@ -52,11 +52,11 @@ def test_over_50k():
 	"hours-per-week": 60,
 	"native-country": "United-States"}
 	r = client.post("/predict_salary", data=json.dumps(data))
-	request = requests.post('http://0.0.0.0:10000/predict_salary', auth=('usr', 'pass'), data=json.dumps(data))
-	assert request.status_code == status.HTTP_200_OK
-	assert request.json() == {"salary": ">50k"}
-	print(request.status_code)
-	print(request.json())
+	#request = requests.post('http://0.0.0.0:10000/predict_salary', auth=('usr', 'pass'), data=json.dumps(data))
+	assert r.status_code == status.HTTP_200_OK #request.status_code == status.HTTP_200_OK
+	assert r.json() == {"salary": ">50k"}
+	print(r.status_code)
+	print(r.json())
 
 def test_under_50k():
 	data={
@@ -75,11 +75,11 @@ def test_under_50k():
 	"hours-per-week": 0,
 	"native-country": "United-States"}
 	r = client.post("/predict_salary", data=json.dumps(data))
-	request = requests.post('http://0.0.0.0:10000/predict_salary', auth=('usr', 'pass'), data=json.dumps(data))
-	assert request.status_code == status.HTTP_200_OK
-	assert request.json() == {"salary": "<=50k"}
-	print(request.status_code)
-	print(request.json())
+	#request = requests.post('http://0.0.0.0:10000/predict_salary', auth=('usr', 'pass'), data=json.dumps(data))
+	assert r.status_code == status.HTTP_200_OK#request.status_code == status.HTTP_200_OK
+	assert r.json() == {"salary": "<=50k"}
+	print(r.status_code)
+	print(r.json())
 
 if __name__=='__main__':
 	test_download()
