@@ -21,6 +21,13 @@ jobs:
         pip install fastapi
         pip install httpx
         pip install requests
+        pip install joblib
+        pip install pandas
+        pip install numpy
+        pip install pathlib
+        pip install scikit-learn
+        pip install matplotlib
+        pip install seaborn
     - name: Analysing the code with pytest
       run: |
         pytest
