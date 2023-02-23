@@ -20,6 +20,8 @@ jobs:
         pip install pytest
         pip install fastapi
         pip install httpx
+        pip install requests
+        pip install json
     - name: Analysing the code with pytest
       run: |
         pytest
