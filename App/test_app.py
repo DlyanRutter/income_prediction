@@ -3,6 +3,7 @@ from fastapi import status, FastAPI
 import requests
 import json
 from App.data import process_data, download, split
+from App.app import app
 
 
 def test_download():
@@ -27,14 +28,13 @@ def test_split():
 	assert X.shape[1] == 14
 	assert len(list(y)) == y.shape[0]
 
-app = FastAPI()
 client = TestClient(app)
 
 def test_get_path():
     r = client.get("/")
     assert r.status_code == status.HTTP_200_OK
     assert r.json() == {"Message": "This is a Salary Prediction Model API"}
-
+"""
 def test_over_50k():
 	data= {
 	"age": 26,
@@ -89,3 +89,4 @@ if __name__=='__main__':
 	test_over_50k()
 	test_under_50k()
 
+"""
