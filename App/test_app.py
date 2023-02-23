@@ -3,7 +3,7 @@ from fastapi import status, FastAPI
 import requests
 import json
 from App.data import process_data, download, split
-from App.app import app ######Must import the app that was running in original file rather than create a new one
+from App.app import app ######Must import the app that was running in original file rather than create a new one, made issue with get
 
 
 def test_download():
@@ -75,7 +75,7 @@ def test_under_50k():
 	"capital-loss": 0,
 	"hours-per-week": 0,
 	"native-country": "United-States"}
-	r = client.post("/predict_salary", data=data)
+	r = client.post("/predict_salary", data=json.dumps(data))
 	#url = 'http://0.0.0.0:10000/predict_salary'
 	#request = requests.request("POST", url=url, data=json.dumps(data)) #auth=('usr', 'pass')
 	#request = requests.post('/predict_salary', auth=('usr', 'pass'), data=json.dumps(data))
