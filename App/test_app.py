@@ -2,8 +2,7 @@ from fastapi.testclient import TestClient
 from fastapi import status, FastAPI
 import requests
 import json
-"""
-from income_prediction.App.data import process_data, download, split
+from data import process_data, download, split
 
 
 def test_download():
@@ -27,7 +26,7 @@ def test_split():
 	assert len(list(y_val)) == y_val.shape[0]
 	assert X.shape[1] == 14
 	assert len(list(y)) == y.shape[0]
-"""
+
 app = FastAPI()
 client = TestClient(app)
 
