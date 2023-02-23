@@ -3,7 +3,7 @@ from fastapi import status, FastAPI
 import requests
 import json
 from App.data import process_data, download, split
-from App.app import app
+from App.app import app ######Must import the app that was running in original file rather than create a new one
 
 
 def test_download():
@@ -34,7 +34,7 @@ def test_get_path():
     r = client.get("/")
     assert r.status_code == status.HTTP_200_OK
     assert r.json() == {"Message": "This is a Salary Prediction Model API"}
-"""
+
 def test_over_50k():
 	data= {
 	"age": 26,
@@ -89,4 +89,4 @@ if __name__=='__main__':
 	test_over_50k()
 	test_under_50k()
 
-"""
+
