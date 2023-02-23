@@ -29,8 +29,8 @@ class Item(BaseModel):
         allow_population_by_field_name = True
 
 # Load models, they were stored in the prior directory
-cv_rfc = joblib.load('./rfc_model.pkl')
-lrc = joblib.load('./logistic_model.pkl')
+cv_rfc = joblib.load('rfc_model.pkl')
+lrc = joblib.load('logistic_model.pkl')
 
 # Initialize an instance of FastAPI
 app = FastAPI()
