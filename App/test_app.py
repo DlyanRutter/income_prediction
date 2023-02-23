@@ -2,7 +2,7 @@ from fastapi.testclient import TestClient
 from fastapi import status, FastAPI
 import requests
 import json
-from data import process_data, download, split
+from App.data import process_data, download, split
 
 
 def test_download():
