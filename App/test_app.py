@@ -2,7 +2,7 @@ from fastapi.testclient import TestClient
 from fastapi import status
 import requests
 import json
-from App.data import process_data, download, split
+from income_prediction.App.data import process_data, download, split
 
 app = FastAPI()
 def test_download():
