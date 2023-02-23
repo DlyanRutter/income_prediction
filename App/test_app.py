@@ -51,7 +51,7 @@ def test_over_50k():
 	"capital-loss": 88,
 	"hours-per-week": 60,
 	"native-country": "United-States"}
-	r = client.post("/predict_salary", data=json.dumps(data))
+	r = client.post("/predict_salary", content=json.dumps(data))
 	#url = 'http://0.0.0.0:10000/predict_salary'
 	#request = requests.request("POST", url=url, data=json.dumps(data))
 	assert r.status_code == status.HTTP_200_OK #r.status_code == status.HTTP_200_OK #request.status_code == status.HTTP_200_OK
@@ -75,7 +75,7 @@ def test_under_50k():
 	"capital-loss": 0,
 	"hours-per-week": 0,
 	"native-country": "United-States"}
-	r = client.post("/predict_salary", data=json.dumps(data))
+	r = client.post("/predict_salary", content=json.dumps(data))
 	#url = 'http://0.0.0.0:10000/predict_salary'
 	#request = requests.request("POST", url=url, data=json.dumps(data)) #auth=('usr', 'pass')
 	#request = requests.post('/predict_salary', auth=('usr', 'pass'), data=json.dumps(data))
