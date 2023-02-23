@@ -27,6 +27,8 @@ jobs:
         pip install scikit-learn
         pip install matplotlib
         pip install seaborn
+        pip install uvicorn
     - name: Analysing the code with pytest
       run: |
+        uvicorn app:app --reload
         pytest
