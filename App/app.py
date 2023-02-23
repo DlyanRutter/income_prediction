@@ -3,7 +3,7 @@ import joblib, numpy
 from pydantic import BaseModel, Field 
 from fastapi.encoders import jsonable_encoder
 import pandas as pd
-from income_prediction.App.data import process_data
+from data import process_data
 
 class Item(BaseModel):
     """
