@@ -26,7 +26,7 @@ def test_split():
 	assert len(list(y_val)) == y_val.shape[0]
 	assert X.shape[1] == 14
 	assert len(list(y)) == y.shape[0]
-"""
+
 app = FastAPI()
 client = TestClient(app)
 
@@ -80,10 +80,12 @@ def test_under_50k():
 	assert request.json() == {"salary": "<=50k"}
 	print(request.status_code)
 	print(request.json())
-test_download()
-test_process_data()
-test_split()
-test_get_path()
-test_over_50k()
-test_under_50k()
-"""
+
+if __name__=='__main__':
+	test_download()
+	test_process_data()
+	test_split()
+	test_get_path()
+	test_over_50k()
+	test_under_50k()
+
