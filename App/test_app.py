@@ -2,9 +2,9 @@ from fastapi.testclient import TestClient
 from fastapi import status
 import requests
 import json
-from app import app
 from data import process_data, download, split
 
+app = FastAPI()
 def test_download():
 	df = download()
 	assert df.shape[1] == 15
