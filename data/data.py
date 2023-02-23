@@ -27,7 +27,7 @@ logging.basicConfig(
     force=True)  # Create separate log files, basic_config only configures unconfigured root files
 logger = logging.getLogger()
 url = "https://github.com/DlyanRutter/income_prediction/blob/main/data/data.csv?raw=True"
-local_path = '/Applications/python_files/income_prediction/data/'
+local_path = 'data/'
 
 def download(
     url=url,
