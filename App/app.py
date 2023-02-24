@@ -53,7 +53,6 @@ async def predict_salary(sample: Item):
                             detail="Please Provide a valid sample")
     # jsonable_encoder converts BaseModel object to json
     answer_dict = jsonable_encoder(sample)
-    salary = "" 
 
     for key, value in answer_dict.items():
         answer_dict[key] = [value]
