@@ -3,7 +3,7 @@ import joblib, numpy
 from pydantic import BaseModel, Field 
 from fastapi.encoders import jsonable_encoder
 import pandas as pd
-from App.data import process_data
+from data import process_data
 
 class Item(BaseModel):
     """
@@ -29,8 +29,8 @@ class Item(BaseModel):
         allow_population_by_field_name = True
 
 # Load models, they were stored in the prior directory
-cv_rfc = joblib.load('App/rfc_model.pkl')
-lrc = joblib.load('App/logistic_model.pkl')
+cv_rfc = joblib.load('../models/rfc_model.pkl')
+lrc = joblib.load('../models/logistic_model.pkl')
 
 # Initialize an instance of FastAPI
 app = FastAPI()
@@ -52,7 +52,8 @@ async def predict_salary(sample: Item):
         raise HTTPException(status_code=400, 
                             detail="Please Provide a valid sample")
     # jsonable_encoder converts BaseModel object to json
-    answer_dict = jsonable_encoder(sample)
+    answer_dict = jsonable_encoder(sample) #jsonable_encoder used
+    salary = "" 
 
     for key, value in answer_dict.items():
         answer_dict[key] = [value]
@@ -60,4 +61,13 @@ async def predict_salary(sample: Item):
     person = process_data(person) # Process data for model compatability
     prediction = cv_rfc.predict(person) # Predict on created df
 
-    return prediction
+    # Determine person's salary prediction
+    if(prediction[0] == 0):
+        salary = ">50k" 
+
+    elif(prediction[0] == 1):
+        salary = "<=50k" 
+        
+    return {
+            "salary": salary 
+           }
