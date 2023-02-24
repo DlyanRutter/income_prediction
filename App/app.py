@@ -60,13 +60,4 @@ async def predict_salary(sample: Item):
     person = process_data(person) # Process data for model compatability
     prediction = cv_rfc.predict(person) # Predict on created df
 
-    # Determine person's salary prediction
-    if(prediction[0] == 0):
-        salary = ">50k" 
-
-    elif(prediction[0] == 1):
-        salary = "<=50k" 
-        
-    return {
-            "salary": salary 
-           }
+    return prediction
