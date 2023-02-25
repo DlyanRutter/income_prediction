@@ -94,13 +94,11 @@ async def predict_salary(sample: Item):
     ##person = pd.DataFrame.from_dict(answer_dict) # Make df so prediction function works    
     person = process_data(person) # Format data for model
     prediction = cv_rfc.predict(person) # Predict on created df
-
+    salary = {}
     if(prediction[0] == 0):
         prediction = ">50k" 
 
     elif(prediction[0] == 1):
         prediction = "<=50k" 
-        
-    return {
-            "salary": prediction 
-           }
+    salary['salary'] = prediction    
+    return salary
