@@ -96,9 +96,9 @@ async def predict_salary(sample: Item):
     prediction = cv_rfc.predict(person) # Predict on created df
     salary = {}
     if(prediction[0] == 0):
-        prediction = ">50k" 
+        prediction = [">50k"] 
 
     elif(prediction[0] == 1):
-        prediction = "<=50k" 
+        prediction = ["<=50k"] 
     salary['salary'] = prediction    
     return salary
